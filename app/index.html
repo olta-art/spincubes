@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Starter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js"></script>
+    <script src="bundle.js" defer></script>
+    <style>
+      html {
+        font: medium/normal sans-serif;
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        display: grid;
+        margin: 0;
+        min-height: 100%;
+      }
+      figure {
+        margin: 0;
+      }
+      canvas {
+        background: black;
+        display: block;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+      img {
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <figure>
+      <canvas height="360" width="640">
+        <img src="screenshot.png" alt="" height="360" width="640">
+      </canvas>
+    </figure>
+  </body>
+</html>

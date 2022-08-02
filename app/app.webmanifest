@@ -1,0 +1,13 @@
+{
+  "name": "Spin Cubes",
+  "description": "Three.js starter boilerplate",
+  "screenshots": [
+    {
+      "src": "screenshot.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Spint Cubes Preview"
+    }
+  ]
+}

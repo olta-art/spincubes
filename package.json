@@ -1,0 +1,27 @@
+{
+  "name": "glowing-potato",
+  "version": "0.0.0",
+  "description": "Three.js starter boilerplate",
+  "main": "main.js",
+  "scripts": {
+    "start": "esbuild main.js --bundle --outfile=./app/bundle.js --minify",
+    "test": "esbuild main.js --bundle --outfile=./app/bundle.js --servedir=./app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thewhodidthis/glowing-potato.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thewhodidthis/glowing-potato/issues"
+  },
+  "homepage": "https://github.com/thewhodidthis/glowing-potato#readme",
+  "dependencies": {
+    "lil-gui": "^0.17.0",
+    "three": "^0.143.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.51"
+  }
+}
