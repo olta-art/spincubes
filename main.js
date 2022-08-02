@@ -39,6 +39,13 @@ function start({ project } = {}) {
     .map(t => t * 1000)
     .filter(t => t > now)
 
+  // NOTE: Uncomment at will to manually adjust `remaining` size
+  // in testing what controls you end up with.
+  // remaining.length = 4
+  // remaining.length = 3
+  // remaining.length = 2
+  // remaining.length = 1
+
   const canvas = document.querySelector("canvas")
   const renderer = new THREE.WebGLRenderer({ antialias: true, canvas })
 
