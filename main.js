@@ -5,7 +5,6 @@ import GUI from "lil-gui"
 import { FogGUI, getSearchParams, queryfetcher } from "./helper.js"
 import { getProject } from "./query.js"
 
-
 const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/name/olta-art/mumbai-v1"
 const FALLBACK_PROJECT_ID = "0x8e7bdca89198d6d89bb4fc7c949d8a2c0b9ee58d"
 
