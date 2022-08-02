@@ -4,8 +4,9 @@
   "description": "Three.js starter boilerplate",
   "main": "main.js",
   "scripts": {
-    "start": "esbuild main.js --bundle --outfile=./app/bundle.js --minify",
-    "test": "esbuild main.js --bundle --outfile=./app/bundle.js --servedir=./app"
+    "pretest": "cd app; python -m SimpleHTTPServer 8000",
+    "test": "rollup -c -w",
+    "start": "rollup -c"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "three": "^0.143.0"
   },
   "devDependencies": {
-    "esbuild": "^0.14.51"
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "rollup": "^2.77.2"
   }
 }

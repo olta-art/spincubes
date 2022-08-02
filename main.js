@@ -13,8 +13,8 @@ const id = address ?? FALLBACK_PROJECT_ID
 const query = getProject(id)
 
 if (self.location.href.includes("localhost")) {
-  import("./data.json", { assert: { type: "json" } }).then((m) => {
-    start({ project: m.default })
+  import("./data.js").then(({ project }) => {
+    start({ project })
   })
 } else {
   queryfetcher(SUBGRAPH_URL, query)
