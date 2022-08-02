@@ -9,13 +9,13 @@ Clone repo.
 ## usage
 
 ```sh
-// Install deps.
+# Install deps.
 npm i
 
-// Dev.
+# Dev.
 npm t
 
-// Build.
+# Build.
 npm start
 ```
 
