@@ -1,5 +1,5 @@
 {
-  "name": "spin-cubes",
+  "name": "spincubes",
   "version": "0.0.0",
   "description": "Three.js starter boilerplate",
   "main": "main.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thewhodidthis/spin-cubes.git"
+    "url": "git+https://github.com/thewhodidthis/spincubes.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/thewhodidthis/spin-cubes/issues"
+    "url": "https://github.com/thewhodidthis/spincubes/issues"
   },
-  "homepage": "https://github.com/thewhodidthis/spin-cubes#readme",
+  "homepage": "https://github.com/thewhodidthis/spincubes#readme",
   "dependencies": {
     "lil-gui": "^0.17.0",
     "three": "^0.143.0"
