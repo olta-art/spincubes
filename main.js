@@ -6,7 +6,7 @@ import { FogGUI, getSearchParams, queryfetcher } from "./helper.js"
 import { getProject } from "./query.js"
 
 const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/name/olta-art/mumbai-v1"
-const FALLBACK_PROJECT_ID = "0x8e7bdca89198d6d89bb4fc7c949d8a2c0b9ee58d"
+const FALLBACK_PROJECT_ID = "0xae4361fe3939347cbe6dce49f88c7d485ed6df30"
 
 const { address } = getSearchParams("address")
 
@@ -28,11 +28,12 @@ if (self.location.href.includes("localhost")) {
 
 function start({ project } = {}) {
   const now = Date.now()
+  const auction = project?.dutchAuctionDrops?.at(0) ?? {}
   const {
     numberOfPriceDrops = 0,
     duration = 0,
     startTimestamp = now
-  } = project?.dutchAuctionDrops?.at(0) ?? {}
+  } = auction
 
   const remaining = Array
     .from({ length: numberOfPriceDrops + 1 }, (_, i) => {
@@ -80,16 +81,41 @@ function start({ project } = {}) {
   scene.background = new THREE.Color(color)
 
   const fogGUI = new FogGUI(scene.fog, scene.background)
+  const controllers = []
+  const controllerfinder = (p = "") => controllers.find(c => c.property === p)
 
-  if (remaining?.length > 2) {
-    gui.add(fogGUI, "near", near, far).listen()
+  self.auctionless = project?.dutchAuctionDrops?.length === 0 || auction?.status !== "Active"
+  self.refresh = (a = remaining) => {
+    gui.controllersRecursive().forEach(c => {
+      c.destroy()
+    })
+
+    if (auctionless || a?.length > 2) {
+      gui.add(fogGUI, "near", near, far).listen()
+    }
+
+    if (auctionless || a?.length > 1) {
+      gui.add(fogGUI, "far", near, far).listen()
+    }
+
+    if (auctionless || a?.length >= 0) {
+      gui.addColor(fogGUI, "color")
+    }
   }
 
-  if (remaining?.length > 1) {
-    gui.add(fogGUI, "far", near, far).listen()
-  }
+  self.proxy = new Proxy(remaining, {
+    set(t, k, v) {
+      const ok = Reflect.set(t, k, v)
 
-  gui.addColor(fogGUI, "color")
+      if (k === "length") {
+        refresh()
+      }
+
+      return ok
+    }
+  })
+
+  refresh()
 
   // Add 200 cubes.
   const geometry = new THREE.BoxGeometry(5, 5, 5)
