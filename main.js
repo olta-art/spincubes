@@ -8,7 +8,7 @@ import { getProject } from "./query.js"
 const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/name/olta-art/mumbai-v1"
 const FALLBACK_PROJECT_ID = "0xae4361fe3939347cbe6dce49f88c7d485ed6df30"
 
-const { address, project } = getSearchParams("address", "project")
+const { address, project, edition } = getSearchParams("address", "project", "edition")
 const id = project ?? address ?? FALLBACK_PROJECT_ID
 const query = getProject(id)
 
@@ -40,7 +40,10 @@ function start(data = {}) {
     })
     .map(t => t * 1000)
 
-  const remaining = drops.filter(t => t >= now)
+  const editionPurchase = edition && auction?.previousPurchases?.find(p => p?.edition?.number === edition)
+  const remaining = editionPurchase
+    ? drops?.filter(t => (editionPurchase?.createdAtTimestamp * 1000) - t < 0)
+    : drops?.filter(t => t >= now)
 
   // NOTE: Uncomment at will to manually adjust `remaining` size
   // in testing what controls you end up with.
