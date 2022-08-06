@@ -4,8 +4,7 @@
   "description": "Three.js starter boilerplate",
   "main": "main.js",
   "scripts": {
-    "pretest": "cd app; python -m SimpleHTTPServer 8000",
-    "test": "rollup -c -w",
+    "test": "concurrently 'http-server app' 'rollup -c -w'",
     "start": "rollup -c"
   },
   "repository": {
@@ -24,6 +23,8 @@
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.3.0",
+    "concurrently": "^7.3.0",
+    "http-server": "^14.1.1",
     "rollup": "^2.77.2"
   }
 }
