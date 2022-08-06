@@ -1,5 +1,4 @@
-export const URL = self.URL || window.webkitURL
-
+// Helps set up custom fog controls.
 export class FogGUI {
   constructor(fog, backgroundColor) {
     this.fog = fog
@@ -35,7 +34,7 @@ export function getSearchParams(...params) {
   return params.map(p => ({ [p]: url.searchParams.get(p) })).reduce((a, b) => ({ ...a, ...b }), {})
 }
 
-// Helps run API queries.
+// Helps run HTTP requests.
 export function downloader(timeout = 100 * 1000) {
   return async (url, options = {}) => {
     // Guard against unresponsive calls.
@@ -64,6 +63,7 @@ export function downloader(timeout = 100 * 1000) {
   }
 }
 
+// Helps run data queries.
 export async function queryfetcher(url, query, settings = {}) {
   const download = downloader(20000)
   const options = {
