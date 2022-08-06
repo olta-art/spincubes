@@ -16,8 +16,8 @@ if (self.location.href.includes("localhost")) {
     start({ project })
   })
 } else {
-  const query = getProject(id)
   const id = address ?? FALLBACK_PROJECT_ID
+  const query = getProject(id)
 
   queryfetcher(SUBGRAPH_URL, query)
     .then(start)
@@ -35,11 +35,11 @@ function start({ project } = {}) {
   } = project?.dutchAuctionDrops?.at(0) ?? {}
 
   const remaining = Array
-    .from({ length: numberOfPriceDrops }, (_, i) => {
-      return Number(startTimestamp) + (duration / numberOfPriceDrops * i)
+    .from({ length: numberOfPriceDrops + 1 }, (_, i) => {
+      return Number(startTimestamp) + ((duration / numberOfPriceDrops) * i)
     })
     .map(t => t * 1000)
-    .filter(t => t > now)
+    .filter(t => t >= now)
 
   // NOTE: Uncomment at will to manually adjust `remaining` size
   // in testing what controls you end up with.
