@@ -6,19 +6,18 @@ import { FogGUI, getSearchParams, queryfetcher } from "./helper.js"
 import { getProject } from "./query.js"
 
 const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/name/olta-art/mumbai-v1"
-const FALLBACK_PROJECT_ID = "0x8e7bdca89198d6d89bb4fc7c949d8a2c0b9ee58d"
+const FALLBACK_PROJECT_ID = "0xae4361fe3939347cbe6dce49f88c7d485ed6df30"
 
-const { address } = getSearchParams("address")
+const { address, project, edition } = getSearchParams("address", "project", "edition")
+const id = project ?? address ?? FALLBACK_PROJECT_ID
+const query = getProject(id)
 
 // Use mock data when running locally.
-if (self.location.href.includes("localhost")) {
-  import("./data.json", { assert: { type: "json" } }).then((m) => {
-    start({ project: m.default })
+if (self.location.href.includes("localhost") && project === null && address === null) {
+  import("./data.json").then(({ project }) => {
+    start({ project })
   })
 } else {
-  const id = address ?? FALLBACK_PROJECT_ID
-  const query = getProject(id)
-
   queryfetcher(SUBGRAPH_URL, query)
     .then(start)
     .catch((e) => {
@@ -26,20 +25,25 @@ if (self.location.href.includes("localhost")) {
     })
 }
 
-function start({ project } = {}) {
+function start(data = {}) {
   const now = Date.now()
+  const auction = data?.project?.dutchAuctionDrops?.at(0) ?? {}
   const {
     numberOfPriceDrops = 0,
     duration = 0,
     startTimestamp = now
-  } = project?.dutchAuctionDrops?.at(0) ?? {}
+  } = auction
 
-  const remaining = Array
+  const drops = Array
     .from({ length: numberOfPriceDrops + 1 }, (_, i) => {
       return Number(startTimestamp) + ((duration / numberOfPriceDrops) * i)
     })
     .map(t => t * 1000)
-    .filter(t => t >= now)
+
+  const editionPurchase = edition && auction?.previousPurchases?.find(p => p?.edition?.number === edition)
+  const remaining = editionPurchase
+    ? drops?.filter(t => (editionPurchase?.createdAtTimestamp * 1000) - t < 0)
+    : drops?.filter(t => t >= now)
 
   // NOTE: Uncomment at will to manually adjust `remaining` size
   // in testing what controls you end up with.
@@ -80,16 +84,22 @@ function start({ project } = {}) {
   scene.background = new THREE.Color(color)
 
   const fogGUI = new FogGUI(scene.fog, scene.background)
+  const controllers = []
+  const controllerfinder = (p = "") => controllers.find(c => c.property === p)
 
-  if (remaining?.length > 2) {
+  const auctionless = project?.dutchAuctionDrops?.length === 0 || auction?.status !== "Active"
+
+  if (auctionless || remaining?.length > 2) {
     gui.add(fogGUI, "near", near, far).listen()
   }
 
-  if (remaining?.length > 1) {
+  if (auctionless || remaining?.length > 1) {
     gui.add(fogGUI, "far", near, far).listen()
   }
 
-  gui.addColor(fogGUI, "color")
+  if (auctionless || remaining?.length >= 0) {
+    gui.addColor(fogGUI, "color")
+  }
 
   // Add 200 cubes.
   const geometry = new THREE.BoxGeometry(5, 5, 5)
