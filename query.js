@@ -1,5 +1,6 @@
+// Given a project id, will return the GQL necessary for fetching a wide
+// range of project data, including any corresponding dutch auctions.
 export function getProject(id) {
-  // TODO: Check `royaltyRecpient` should not be `royaltyRecipient`?
   return `
     query {
       project(id: "${id}") {

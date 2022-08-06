@@ -9,14 +9,16 @@ const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/name/olta-art/mumbai-v1
 const FALLBACK_PROJECT_ID = "0x8e7bdca89198d6d89bb4fc7c949d8a2c0b9ee58d"
 
 const { address } = getSearchParams("address")
-const id = address ?? FALLBACK_PROJECT_ID
-const query = getProject(id)
 
+// Use mock data when running locally.
 if (self.location.href.includes("localhost")) {
   import("./data.js").then(({ project }) => {
     start({ project })
   })
 } else {
+  const query = getProject(id)
+  const id = address ?? FALLBACK_PROJECT_ID
+
   queryfetcher(SUBGRAPH_URL, query)
     .then(start)
     .catch((e) => {
