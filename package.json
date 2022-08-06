@@ -4,7 +4,7 @@
   "description": "Three.js starter boilerplate",
   "main": "main.js",
   "scripts": {
-    "test": "concurrently 'http-server app' 'rollup -c -w'",
+    "test": "concurrently 'rollup -c -w' 'http-server app'",
     "start": "rollup -c"
   },
   "repository": {
