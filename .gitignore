@@ -1,5 +1,6 @@
 .DS_Store
+bundle.js
+test.html
 *.swp
 *.zip
-test.html
 node_modules
