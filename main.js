@@ -8,17 +8,16 @@ import { getProject } from "./query.js"
 const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/name/olta-art/mumbai-v1"
 const FALLBACK_PROJECT_ID = "0xae4361fe3939347cbe6dce49f88c7d485ed6df30"
 
-const { address } = getSearchParams("address")
+const { address, project } = getSearchParams("address", "project")
+const id = project ?? address ?? FALLBACK_PROJECT_ID
+const query = getProject(id)
 
 // Use mock data when running locally.
-if (self.location.href.includes("localhost")) {
+if (self.location.href.includes("localhost") && project === null && address === null) {
   import("./data.js").then(({ project }) => {
     start({ project })
   })
 } else {
-  const id = address ?? FALLBACK_PROJECT_ID
-  const query = getProject(id)
-
   queryfetcher(SUBGRAPH_URL, query)
     .then(start)
     .catch((e) => {
@@ -26,21 +25,22 @@ if (self.location.href.includes("localhost")) {
     })
 }
 
-function start({ project } = {}) {
+function start(data = {}) {
   const now = Date.now()
-  const auction = project?.dutchAuctionDrops?.at(0) ?? {}
+  const auction = data?.project?.dutchAuctionDrops?.at(0) ?? {}
   const {
     numberOfPriceDrops = 0,
     duration = 0,
     startTimestamp = now
   } = auction
 
-  const remaining = Array
+  const drops = Array
     .from({ length: numberOfPriceDrops + 1 }, (_, i) => {
       return Number(startTimestamp) + ((duration / numberOfPriceDrops) * i)
     })
     .map(t => t * 1000)
-    .filter(t => t >= now)
+
+  const remaining = drops.filter(t => t >= now)
 
   // NOTE: Uncomment at will to manually adjust `remaining` size
   // in testing what controls you end up with.
@@ -84,38 +84,19 @@ function start({ project } = {}) {
   const controllers = []
   const controllerfinder = (p = "") => controllers.find(c => c.property === p)
 
-  self.auctionless = project?.dutchAuctionDrops?.length === 0 || auction?.status !== "Active"
-  self.refresh = (a = remaining) => {
-    gui.controllersRecursive().forEach(c => {
-      c.destroy()
-    })
+  const auctionless = project?.dutchAuctionDrops?.length === 0 || auction?.status !== "Active"
 
-    if (auctionless || a?.length > 2) {
-      gui.add(fogGUI, "near", near, far).listen()
-    }
-
-    if (auctionless || a?.length > 1) {
-      gui.add(fogGUI, "far", near, far).listen()
-    }
-
-    if (auctionless || a?.length >= 0) {
-      gui.addColor(fogGUI, "color")
-    }
+  if (auctionless || remaining?.length > 2) {
+    gui.add(fogGUI, "near", near, far).listen()
   }
 
-  self.proxy = new Proxy(remaining, {
-    set(t, k, v) {
-      const ok = Reflect.set(t, k, v)
+  if (auctionless || remaining?.length > 1) {
+    gui.add(fogGUI, "far", near, far).listen()
+  }
 
-      if (k === "length") {
-        refresh()
-      }
-
-      return ok
-    }
-  })
-
-  refresh()
+  if (auctionless || remaining?.length >= 0) {
+    gui.addColor(fogGUI, "color")
+  }
 
   // Add 200 cubes.
   const geometry = new THREE.BoxGeometry(5, 5, 5)
