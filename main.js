@@ -103,8 +103,9 @@ function start(data = {}) {
 
   // Add 200 cubes.
   const geometry = new THREE.BoxGeometry(5, 5, 5)
+  const n = gui.controllers.length * 80
 
-  for (let i = 0; i < 200; i += 1) {
+  for (let i = 0; i < n; i += 1) {
     const material = new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff })
     const object = new THREE.Mesh(geometry, material)
 
