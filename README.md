@@ -30,7 +30,7 @@ npm i
 
 ## usage
 
-Start a local http server out the `app` directory, watch `main.js` for changes, and rebuild JS if necessary:
+Start a local http server out the `./app` directory, watch `./main.js` for changes, and rebuild JS if necessary:
 
 ```sh
 npm t
