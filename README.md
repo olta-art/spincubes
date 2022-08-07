@@ -51,7 +51,7 @@ That should give your project a smaller total size when uploading to Arweave.
 - The `./main.js` module will set up the scene and run the URL search param and subgraph logic.
 - The `./query.js` module is meant to contain wrapper functions for creating GQL queries, at present just for fetching per project data.
 - The `./app` directory contains all the files needed for successfully hosting the project on Arweave:
-  - `./app/app.webmanifest` is the [web app manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest) for the project, which you can edit to include extra screenshots and other metadata for [Olta's editions app](https://beta.olta.art/mumbai/) to read when uploading.
+  - `./app/app.webmanifest` is the [web app manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest) for the project, which you can edit to include extra screenshots and other metadata for [Olta's Editions App](https://beta.olta.art/mumbai/index.html) to read when uploading.
   - `./app/favicon.ico` is an empty favicon to stop browsers complaining about it missing on first load.
   - `./app/bundle.js` is the compiled JS, which includes project code and imports.
   - `./app/index.html` links up the scripts and sets up the canvas.
