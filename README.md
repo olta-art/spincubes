@@ -59,5 +59,5 @@ That should give your project a smaller total size when uploading to Arweave.
 
 ## see also
 
-- [Olta's Polygon TESTNET beta](https://beta.olta.art/mumbai/)
-- [Olta's [WIP] docs](https://docs.olta.art/)
+- [Olta's Polygon TESTNET beta](https://beta.olta.art/mumbai/index.html)
+- [Olta's Tech docs](https://docs.olta.art/creator/introduction.html#become-a-creator)
