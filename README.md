@@ -1,6 +1,6 @@
 ## about
 
-This is a basic [Three.js](https://github.com/mrdoob/three.js/) sample project showcasing how to create dynamic NFTs by querying [Olta's subgraph API](https://api.thegraph.com/subgraphs/name/olta-art/mumbai-v1/). The idea is to link up some of the contract data to how your work is supposed to behave over time via GQL.
+This is a basic [Three.js](https://github.com/mrdoob/three.js/) sample project showcasing how to create dynamic NFTs by querying [Olta's subgraph API](https://api.thegraph.com/subgraphs/name/olta-art/mumbai-v1). The idea is to link up some of the contract data to how your work is supposed to behave over time via GQL.
 
 In this case, once a dutch auction is running for your piece, the number of controls and cubes on the scene will adjust according to how many price drops are left. For example, if someone were to mint an edition at bottom price, there should be only the color control and less cubes present.
 
