@@ -34,7 +34,7 @@ export function getProject(id) {
         }
         description
         royaltyBPS
-        royaltyRecpient
+        royaltyRecipient
         lastAddedVersion {
           image {
             url
